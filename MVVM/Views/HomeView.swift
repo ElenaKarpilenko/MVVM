@@ -14,16 +14,16 @@ struct HomeView: View {
         NavigationView {
             VStack {
                 // Навигационная панель
-                HStack {
-                    Spacer()
-                    NavigationLink(destination: FavoritesView(viewModel: viewModel)) {
-                        Image(systemName: "heart.fill")
-                            .foregroundColor(.red)
-                            .font(.system(size: 30))
-                            .padding(.trailing, 16)
-                    }
-                }
-                .padding(.top, 16)
+//                HStack {
+//                    Spacer()
+//                    NavigationLink(destination: FavoritesView(viewModel: viewModel)) {
+//                        Image(systemName: "heart.fill")
+//                            .foregroundColor(.red)
+//                            .font(.system(size: 30))
+//                            .padding(.trailing, 16)
+//                    }
+//                }
+//                .padding(.top, 16)
                 
                 // Баннер
                 AutoBannerSection(
@@ -60,7 +60,7 @@ struct HomeView: View {
                 // Список категорий
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
-                        ForEach(["Все", "Красное", "Белое", "Игристое", "Розовое", "Десертное", "Портвейн"], id: \.self) { category in
+                        ForEach(viewModel.wineTypes, id: \.self) { category in
                             Button(action: {
                                 viewModel.selectedCategory = category
                             }) {
@@ -83,9 +83,10 @@ struct HomeView: View {
                 // Список карточек
                 ScrollView {
                     LazyVStack(spacing: 24) {
-                        ForEach(viewModel.filteredCards) { card in
-                            NavigationLink(destination: WineDetailView(card: card, favorites: $viewModel.favorites)) {
-                                WineCardCell(card: card)
+                        ForEach(viewModel.filteredCards) { item in
+                            let viewModel = WineDetailViewModel(wineID: item.id, category: viewModel.selectedCategory, favorites: $viewModel.favorites)
+                            NavigationLink(destination: WineDetailView(viewModel: viewModel)) {
+                                WineCardCell(title: item.wine, subTitle: item.winery, image: item.image)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
@@ -101,6 +102,31 @@ struct HomeView: View {
                 )
                 .edgesIgnoringSafeArea(.all)
             )
+            .onAppear {
+                viewModel.fetchWines(category: viewModel.selectedCategory)
+            }
+            .toolbar {
+                // Левая кнопка
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        print("Левая кнопка нажата")
+                    }) {
+                        Image(systemName: "heart.fill")
+                            .foregroundStyle(.red)
+
+                    }
+                }
+                
+                // Правая кнопка
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        print("Правая кнопка нажата")
+                    }) {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundStyle(.black)
+                    }
+                }
+            }
         }
     }
 }

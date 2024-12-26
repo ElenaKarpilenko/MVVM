@@ -44,16 +44,16 @@ struct FavoritesView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: 16) {
-                        ForEach(viewModel.filteredFavorites) { card in
-                            WineCardCell(card: card)
-                                .swipeActions {
-                                    Button(role: .destructive) {
-                                        viewModel.removeFromFavorites(card: card)
-                                    } label: {
-                                        Label("Удалить", systemImage: "trash")
-                                    }
-                                }
-                        }
+//                        ForEach(viewModel.filteredFavorites) { card in
+//                            WineCardCell(card: card)
+//                                .swipeActions {
+//                                    Button(role: .destructive) {
+//                                        viewModel.removeFromFavorites(card: card)
+//                                    } label: {
+//                                        Label("Удалить", systemImage: "trash")
+//                                    }
+//                                }
+//                        }
                     }
                     .padding()
                 }

@@ -6,24 +6,26 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct WineCardCell: View {
-    let card: WineCard
-
+    let title: String
+    let subTitle: String
+    let image: String
+    
     var body: some View {
         HStack {
-            Image(card.imageName)
+            KFImage(URL(string: image))
                 .resizable()
                 .scaledToFit()
-                .frame(width: 120, height: 100)
-                .cornerRadius(12) // Закругленные углы
-                .shadow(color: .black.opacity(0.3), radius: 6, x: 0, y: 4) // Тень для объема
-
+                .frame(width: 88, height: 88)
+                .padding()
+            
             VStack(alignment: .leading, spacing: 8) {
-                Text(card.title)
+                Text(title)
                     .font(.headline)
                     .foregroundColor(Color.black)
-                Text(card.description)
+                Text(subTitle)
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -33,8 +35,8 @@ struct WineCardCell: View {
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5) // Тень для фона
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
         )
-        .padding(.horizontal) // Дополнительное расстояние по краям
+        .padding(.horizontal)
     }
 }
